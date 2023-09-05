@@ -45,6 +45,8 @@ require("lspconfig").lua_ls.setup {
   on_attach = M.on_attach,
   capabilities = M.capabilities,
 
+  cmd = { 'lua-language-server' },
+
   settings = {
     Lua = {
       diagnostics = {
