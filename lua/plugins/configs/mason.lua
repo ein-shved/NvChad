@@ -23,6 +23,26 @@ local options = {
   },
 
   max_concurrent_installers = 10,
+  stub = function()
+    package.loaded["mason"] = {}
+    package.loaded["mason-registry"] = {
+      on = function(self, event, foo)
+        foo({ name = "" })
+      end
+    }
+    vim.g.mason_binaries_list = {}
+    local function quiet_stub()
+    end
+    local function stub()
+      print("Mason was disabled")
+    end
+    vim.api.nvim_create_user_command("Mason", stub, {})
+    vim.api.nvim_create_user_command("MasonInstall", quiet_stub, {})
+    vim.api.nvim_create_user_command("MasonInstallAll", quiet_stub, {})
+    vim.api.nvim_create_user_command("MasonUninstall", quiet_stub, {})
+    vim.api.nvim_create_user_command("MasonUninstallAll", quiet_stub, {})
+    vim.api.nvim_create_user_command("MasonLog", stub, {})
+  end
 }
 
 return options
