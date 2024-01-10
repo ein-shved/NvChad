@@ -23,12 +23,16 @@ local options = {
   },
 
   max_concurrent_installers = 10,
+  -- TODO(Shvedov) I should drop this dirty hack
   stub = function()
     package.loaded["mason"] = {}
     package.loaded["mason-registry"] = {
       on = function(self, event, foo)
         foo({ name = "" })
-      end
+      end,
+      is_installed = function(bin)
+        return false
+      end,
     }
     vim.g.mason_binaries_list = {}
     local function quiet_stub()
